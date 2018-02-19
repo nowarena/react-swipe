@@ -2,111 +2,34 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import querystring from 'querystring';
 import ReactSwipe from '../src/reactSwipe';
+import ItemEmpty from '../src/itemEmpty';
+import Item from '../src/item';
+import Lockbtn from '../src/lockbtn';
 
-
-var newsAndPeopleJson = require('../json/news_and_people.json');
+var newspeopleJson = require('../json/newspeople.json');
 var shoppingJson = require('../json/shopping.json');
 var fashionJson = require('../json/fashion.json');
 var otherJson = require('../json/other.json');
 var diningJson = require('../json/dining.json');
-var servicesJson = require('../json/services.json');
-var casualeatsJson = require('../json/casual_eats.json');
-var barJson = require('../json/bar.json');
-var coffeeandteaJson = require('../json/coffee_and_tea.json');
-var spaandfitnessJson = require('../json/spa_and_fitness.json');
+//var servicesJson = require('../json/services.json');
+var coffeecasualeatsJson = require('../json/coffeecasualeats.json');
+var spafitnessJson = require('../json/spafitness.json');
 var techJson = require('../json/tech.json');
 
 const query = querystring.parse(window.location.search.slice(1));
-
-// generate slide panes
-const numberOfSlides = parseInt(query.slidesNum, 10) || 20;
 
 // change Swipe.js options by query params
 const startSlide = parseInt(query.startSlide, 10) || 0;
 
 class Page extends Component {
 
-  createMarkupItem(i) {
-
-    console.log('this.props.feed', this.props.feed);
-
-    var content = '<div class="itemTextCont">End of feed reached.</div>';
-    if (typeof this.props.feed[0].social_media != 'undefined' && typeof this.props.feed[0].social_media[i] != 'undefined') {
-
-      var socialMediaArr = this.props.feed[0].social_media;
-      console.log('socialMediaArr', socialMediaArr);
-      var title = socialMediaArr[i].username;
-      var text = socialMediaArr[i].text;
-      var username = socialMediaArr[i].username;
-      var usernameLink = '<a target="_blank" href="http://' + socialMediaArr[i].site + '/' + username + '">' + username + '</a>';
-      var created_at = socialMediaArr[i].created_at;
-      var avatar = '<a target=_blank href="' + socialMediaArr[i].link + '"><img class="avatarImg" src="' + socialMediaArr[i].avatar + '"/></a>';
-
-      var category ='People and News';
-
-      content = '<div class="itemCont">';
-      content+= '<div class="itemHeader">';
-      content+= '<div class="itemHeaderUsername">' + usernameLink + '</div>';
-      content+= '<div class="itemHeaderCreatedAt">' + created_at + '</div>';
-      content+= '<div style="clear:both;"></div>';
-      content+= '</div>';
-      content+= '<div style="clear:both;"></div>';
-      content+= '<div class="itemBody">';
-      content+= '<div class="itemAvatarCont">' + avatar + '</div>';
-      content+= '<div class="itemTextCont">' + text + '</div>';
-      content+= '</div>';
-      content+= '</div>';
-
-    }
-
-    return {__html: content};
-
+  gotoTop () {
+    do {
+      this.prev();
+    } while (this.reactSwipe.getPos() > 0);
   }
-
-  createMarkupCat(i) {
-
-    console.log('i', i);
-    console.log('this.props.feed[i]', this.props.feed[i]);
-
-    var content = 'End of feed.';
-    if (typeof this.props.feed[i] != 'undefined'
-      && typeof this.props.feed[i].social_media != 'undefined'
-      && typeof this.props.feed[i].social_media[0] != 'undefined') {
-
-      var socialMediaArr = this.props.feed[i].social_media[0];
-      console.log('socialMediaArr', socialMediaArr);
-      var title = socialMediaArr.username;
-      var text = socialMediaArr.text;
-      var username = socialMediaArr.username;
-      var usernameLink = '<a target="_blank" href="http://' + socialMediaArr.site + '/' + username + '">' + username + '</a>';
-      var created_at = socialMediaArr.created_at;
-      var avatar = '<a target=_blank href="' + socialMediaArr.link + '"><img class="avatarImg" src="' + socialMediaArr.avatar + '"/></a>';
-
-      var category ='People and News';
-
-      content = '<div class="itemCont">';
-      content+= '<div class="itemHeader">';
-      content+= '<div class="itemHeaderUsername">' + usernameLink + '</div>';
-      content+= '<div class="itemHeaderCreatedAt">' + created_at + '</div>';
-      content+= '<div style="clear:both;"></div>';
-      content+= '</div>';
-      content+= '<div style="clear:both;"></div>';
-      content+= '<div class="itemBody">';
-      content+= '<div class="itemAvatarCont">' + avatar + '</div>';
-      content+= '<div class="itemTextCont">' + text + '</div>';
-      content+= '</div>';
-      content+= '</div>';
-
-    }
-
-    return {__html: content};
-
-  }
-
-
 
   next () {
-    console.log('next called');
     this.reactSwipe.next();
   }
 
@@ -114,12 +37,42 @@ class Page extends Component {
     this.reactSwipe.prev();
   }
 
+  setView(val) {
+    console.log("val", val);
+    this.view = val;
+  }
+
   render () {
 
+    var view = typeof this.view != 'undefined' ? this.view : 'cats';
+    var viewSwitch = 'items';
+
+    var numberOfSlides = this.props.feed.length + 1;// + 1 because ItemEmpty will be the +1
+    if (view == 'items') {
+      numberOfSlides = this.props.feed[0].social_media.length + 1;// + 1 because ItemEmpty will be the +1
+      viewSwitch = 'cats';
+    }
+
+    console.log("view", view);
+
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
+      var endOfFeedVisibility=true;
+      var socialMediaArr = [];
+      if (view == 'cats' && typeof this.props.feed[i] != 'undefined'
+         && typeof this.props.feed[i].social_media != 'undefined'
+         && typeof this.props.feed[i].social_media[0] != 'undefined') {
+        socialMediaArr = this.props.feed[i].social_media[0];// this gets the most recent social_media item for a member in position i of this category
+        endOfFeedVisibility=false;
+      }else if (view == 'items' && typeof this.props.feed[0] != 'undefined'
+         && typeof this.props.feed[0].social_media != 'undefined'
+         && typeof this.props.feed[0].social_media[i] != 'undefined') {
+        socialMediaArr = this.props.feed[0].social_media[i];
+        endOfFeedVisibility=false;
+      }
       return (
         <div key={i}>
-          <div className="item" dangerouslySetInnerHTML={this.createMarkupCat(i)} />
+          <Item setView={() => this.setView} view={view} socialMediaArr={socialMediaArr}></Item>
+          <ItemEmpty gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
     });
@@ -138,8 +91,6 @@ class Page extends Component {
       }
     };
 
-    console.log('paneNodes', paneNodes);
-
     return (
       <div className="center">
         <ReactSwipe
@@ -149,9 +100,10 @@ class Page extends Component {
           {paneNodes}
         </ReactSwipe>
 
-        <div>
-          <button type="button" onClick={::this.prev}>Prev</button>
-          <button type="button" onClick={::this.next}>Next</button>
+        <div className="buttonCont">
+          <Lockbtn setView={() => this.setView(viewSwitch)} view={view}></Lockbtn>
+          <button className="navButton prevButton" type="button" onClick={::this.prev}>Prev</button>
+          <button className="navButton nextbutton" type="button" onClick={::this.next}>Next</button>
         </div>
       </div>
     );
@@ -169,6 +121,35 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-  <Page feed={newsAndPeopleJson} />,
-  document.getElementById('newsandpeople')
+  <Page feed={newspeopleJson} />,
+  document.getElementById('newspeople')
+);
+
+ReactDOM.render(
+  <Page feed={techJson} />,
+  document.getElementById('tech')
+);
+
+ReactDOM.render(
+  <Page feed={diningJson} />,
+  document.getElementById('dining')
+);
+
+ReactDOM.render(
+  <Page feed={coffeecasualeatsJson} />,
+  document.getElementById('coffeecasualeats')
+);
+
+ReactDOM.render(
+  <Page feed={spafitnessJson} />,
+  document.getElementById('spafitness')
+);
+
+// ReactDOM.render(
+//   <Page feed={servicesJson} />,
+//   document.getElementById('services')
+// );
+ReactDOM.render(
+  <Page feed={otherJson} />,
+  document.getElementById('other')
 );
