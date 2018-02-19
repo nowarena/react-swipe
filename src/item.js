@@ -22,7 +22,7 @@ class Item extends Component {
       created_at = '';//socialMediaArr.created_at;
       avatar = '<a target=_blank href="' + socialMediaArr.link + '"><img className="avatarImg" src="' + socialMediaArr.avatar + '"/></a>';
     }
-
+console.log("Item visibilityStyle", visibilityStyle);
     return (
       <div>
         <div className="item" style={visibilityStyle}>

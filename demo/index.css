@@ -30,21 +30,59 @@ a:hover {
     position:relative;
 }
 
-.buttonCont {
+.lockBtnCont {
     position:absolute;
-    top:-36px;
-    right:10px;
+    top:8px;
+    right:16px;
 }
 
-.navButton {
+.lockBtn {
     border:2px solid #dddddd;
     padding:5px 8px 5px 8px;
-    margin:2px;
+    background-color:#cccccc;
+    font-size:12px;
+    font-weight:bold;
+    cursor: pointer;
+    width:100px;
+}
+
+.navBtnCont {
+    margin:0px auto;
+    width:400px;
+    border:0px solid black;
+    position:relative;
+    top:-48px;
+
+}
+
+.rowCont {
+    height:240px;
+}
+.navBtn {
+    border:2px solid #dddddd;
+    padding:5px 8px 5px 8px;
+    margin-right:2px;
     background-color:#cccccc;
     font-size:16px;
     font-weight:bold;
     cursor: pointer;
+    width:100px;
 }
+.prevBtn {
+
+}
+.nextBtn {
+
+}
+
+@media screen and (max-width:800px) {
+    .navBtnCont {
+        display:none;
+    }
+
+}
+
+
 
 h1 {
     font-size: 34px;

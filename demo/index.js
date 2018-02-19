@@ -21,7 +21,14 @@ const query = querystring.parse(window.location.search.slice(1));
 // change Swipe.js options by query params
 const startSlide = parseInt(query.startSlide, 10) || 0;
 
-class Page extends Component {
+class Page extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {view: 'cats', itemsId:0};
+    this.setView = this.setView.bind(this);
+  }
+
 
   gotoTop () {
     do {
@@ -37,44 +44,73 @@ class Page extends Component {
     this.reactSwipe.prev();
   }
 
-  setView(val) {
-    console.log("val", val);
-    this.view = val;
+  setView(currentView, itemsId) {
+    console.log('setView currentView', currentView);
+    console.log("setView itemsId", itemsId);
+    var viewVal = (currentView == 'items') ? 'cats' : 'items';
+    console.log("setView viewVal", viewVal);
+    this.setState({
+      view: viewVal,
+      itemsId: itemsId
+    });
+
   }
 
   render () {
 
-    var view = typeof this.view != 'undefined' ? this.view : 'cats';
-    var viewSwitch = 'items';
-
-    var numberOfSlides = this.props.feed.length + 1;// + 1 because ItemEmpty will be the +1
-    if (view == 'items') {
-      numberOfSlides = this.props.feed[0].social_media.length + 1;// + 1 because ItemEmpty will be the +1
-      viewSwitch = 'cats';
+    var numberOfSlides = Object.keys(this.props.feed).length + 1;
+    if (this.state.view == 'items') {
+      numberOfSlides = this.props.feed[this.state.itemsId].social_media.length + 1;// + 1 because ItemEmpty will be the +1
     }
 
-    console.log("view", view);
+    console.log('render view', this.state.view);
+    console.log('render feed', this.props.feed);
+    console.log('render numberOfSlides', numberOfSlides);
+
+    // create an array to map items_id to position in this.props.feed array
+    var itemsIdArr = new Array;
+    var index = 0;
+    for(var itemsId in this.props.feed) {
+      itemsIdArr[index] = itemsId;
+      index++;
+    }
+    console.log("render itemsIdArr", itemsIdArr);
 
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
+
+      console.log("paneNodes i", i);
+      console.log("paneNodesitemsId", itemsIdArr[i]);
       var endOfFeedVisibility=true;
       var socialMediaArr = [];
-      if (view == 'cats' && typeof this.props.feed[i] != 'undefined'
-         && typeof this.props.feed[i].social_media != 'undefined'
-         && typeof this.props.feed[i].social_media[0] != 'undefined') {
-        socialMediaArr = this.props.feed[i].social_media[0];// this gets the most recent social_media item for a member in position i of this category
-        endOfFeedVisibility=false;
-      }else if (view == 'items' && typeof this.props.feed[0] != 'undefined'
-         && typeof this.props.feed[0].social_media != 'undefined'
-         && typeof this.props.feed[0].social_media[i] != 'undefined') {
-        socialMediaArr = this.props.feed[0].social_media[i];
-        endOfFeedVisibility=false;
+      if (this.state.view == 'cats') {
+        itemsId = itemsIdArr[i];
+      } else {
+        itemsId = this.state.itemsId;
       }
+
+      if (this.state.view == 'cats'
+         && typeof this.props.feed[itemsId] != 'undefined'
+         && typeof this.props.feed[itemsId].social_media != 'undefined'
+         && typeof this.props.feed[itemsId].social_media[0] != 'undefined') {
+          socialMediaArr = this.props.feed[itemsId].social_media[0];// this gets the most recent social_media item for a member in position i of this category
+          endOfFeedVisibility=false;
+      } else if (this.state.view == 'items'
+         && typeof this.props.feed[itemsId] != 'undefined'
+         && typeof this.props.feed[itemsId].social_media != 'undefined'
+         && typeof this.props.feed[itemsId].social_media[i] != 'undefined') {
+        console.log("this.state.view", this.state.view);
+          socialMediaArr = this.props.feed[itemsId].social_media[i];
+          endOfFeedVisibility=false;
+      }
+
       return (
         <div key={i}>
-          <Item setView={() => this.setView} view={view} socialMediaArr={socialMediaArr}></Item>
+          <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view}></Lockbtn>
+          <Item socialMediaArr={socialMediaArr}></Item>
           <ItemEmpty gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
+
     });
 
     const swipeOptions = {
@@ -92,7 +128,7 @@ class Page extends Component {
     };
 
     return (
-      <div className="center">
+      <div key={itemsId} className="center">
         <ReactSwipe
           ref={reactSwipe => this.reactSwipe = reactSwipe}
           className="mySwipe"
@@ -100,24 +136,24 @@ class Page extends Component {
           {paneNodes}
         </ReactSwipe>
 
-        <div className="buttonCont">
-          <Lockbtn setView={() => this.setView(viewSwitch)} view={view}></Lockbtn>
-          <button className="navButton prevButton" type="button" onClick={::this.prev}>Prev</button>
-          <button className="navButton nextbutton" type="button" onClick={::this.next}>Next</button>
+        <div className="navBtnCont">
+          <button className="navBtn prevBtn" type="button" onClick={::this.prev}>&laquo;</button>
+          <button className="navBtn nextbtn" type="button" onClick={::this.next}>&raquo;</button>
         </div>
+
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <Page feed={shoppingJson} />,
-  document.getElementById('shopping')
+  <Page feed={fashionJson} />,
+  document.getElementById('fashion')
 );
 
 ReactDOM.render(
-  <Page feed={fashionJson} />,
-  document.getElementById('fashion')
+  <Page feed={shoppingJson} />,
+  document.getElementById('shopping')
 );
 
 ReactDOM.render(

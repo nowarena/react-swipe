@@ -11,7 +11,18 @@ class ItemEmpty extends Component {
 
     return (
       <div>
-        <div className="item" style={endOfFeedVisibilityStyle}><div className="itemCont"><div className="itemHeader"> &nbsp; </div><div className="itemBody"><div className="itemTextContEmpty">End of feed.<br /><br /><button className="navButton" type="button" onClick={() => this.props.gotoTop()}>Return to Top of Feed</button></div></div></div></div>
+        <div className="item" style={endOfFeedVisibilityStyle}>
+          <div className="itemCont">
+            <div className="itemHeader">
+              <div className="itemHeaderUsername">End of feed</div>
+              <div className="clearBoth"></div>
+            </div>
+            <div className="clearBoth"></div>
+            <div className="itemBody">
+              <div className="itemTextContEmpty"><br /><br /><button className="navButton" type="button" onClick={() => this.props.gotoTop()}>Return to Top of Feed</button></div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
