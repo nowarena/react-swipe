@@ -29,7 +29,6 @@ class Page extends React.Component {
     this.setView = this.setView.bind(this);
   }
 
-
   gotoTop () {
     do {
       this.prev();
@@ -45,10 +44,7 @@ class Page extends React.Component {
   }
 
   setView(currentView, itemsId) {
-    console.log('setView currentView', currentView);
-    console.log("setView itemsId", itemsId);
     var viewVal = (currentView == 'items') ? 'cats' : 'items';
-    console.log("setView viewVal", viewVal);
     this.setState({
       view: viewVal,
       itemsId: itemsId
@@ -63,27 +59,41 @@ class Page extends React.Component {
       numberOfSlides = this.props.feed[this.state.itemsId].social_media.length + 1;// + 1 because ItemEmpty will be the +1
     }
 
-    console.log('render view', this.state.view);
-    console.log('render feed', this.props.feed);
-    console.log('render numberOfSlides', numberOfSlides);
-
-    // create an array to map items_id to position in this.props.feed array
-    var itemsIdArr = new Array;
+    // CREATE A LOOKUP ARRAY TO MAP INDEX POSITION 0-9 TO ITEMS_ID (1333,333,ETC) ACCORDING TO DATE
+    // OF MOST RECENT SOCIAL MEDIA
+    //
+    // create an array to map items_id and their most recent social media date to position in this.props.feed array
     var index = 0;
+    var itemsDateUtArr = new Array;
     for(var itemsId in this.props.feed) {
-      itemsIdArr[index] = itemsId;
+      itemsDateUtArr[index] = this.props.feed[itemsId].social_media[0].created_at_ut;
       index++;
     }
-    console.log("render itemsIdArr", itemsIdArr);
+    // order the items by most recent social media date
+    itemsDateUtArr.sort();
+    itemsDateUtArr.reverse();
+    var itemsIdSetArr = [];
+    var itemsIdLookupArr = new Array;
+    index = 0;
+    for(var key in itemsDateUtArr) {
+      for(var itemsIdKey in this.props.feed) {
+          if (this.props.feed[itemsIdKey].social_media[0].created_at_ut == itemsDateUtArr[key] && typeof itemsIdSetArr[itemsIdKey] == 'undefined') {
+            itemsIdLookupArr[index] = itemsIdKey;
+            index++;
+            itemsIdSetArr[itemsIdKey] = 1;
+          }
+      }
+
+    }
+    // END CREATE LOOKUP TABLE ARRAY
 
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
 
-      console.log("paneNodes i", i);
-      console.log("paneNodesitemsId", itemsIdArr[i]);
       var endOfFeedVisibility=true;
       var socialMediaArr = [];
       if (this.state.view == 'cats') {
-        itemsId = itemsIdArr[i];
+        // use the lookup array to map index position to itemsId
+        itemsId = itemsIdLookupArr[i];
       } else {
         itemsId = this.state.itemsId;
       }
@@ -98,7 +108,6 @@ class Page extends React.Component {
          && typeof this.props.feed[itemsId] != 'undefined'
          && typeof this.props.feed[itemsId].social_media != 'undefined'
          && typeof this.props.feed[itemsId].social_media[i] != 'undefined') {
-        console.log("this.state.view", this.state.view);
           socialMediaArr = this.props.feed[itemsId].social_media[i];
           endOfFeedVisibility=false;
       }
@@ -106,8 +115,8 @@ class Page extends React.Component {
       return (
         <div key={i}>
           <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view}></Lockbtn>
-          <Item socialMediaArr={socialMediaArr}></Item>
-          <ItemEmpty gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
+          <Item view={this.state.view} socialMediaArr={socialMediaArr}></Item>
+          <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
 
@@ -143,6 +152,7 @@ class Page extends React.Component {
 
       </div>
     );
+
   }
 }
 
@@ -181,11 +191,12 @@ ReactDOM.render(
   document.getElementById('spafitness')
 );
 
-// ReactDOM.render(
-//   <Page feed={servicesJson} />,
-//   document.getElementById('services')
-// );
+
 ReactDOM.render(
   <Page feed={otherJson} />,
   document.getElementById('other')
 );
+// ReactDOM.render(
+//   <Page feed={servicesJson} />,
+//   document.getElementById('services')
+// );

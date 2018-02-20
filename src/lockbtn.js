@@ -13,7 +13,7 @@ class Lockbtn extends Component {
     if (typeof this.props.itemsId == 'undefined') {
       visibilityStyle = {display: 'none'};
     }
-console.log("Lockbtn itemsId", this.props.itemsId);
+
     return (
       <div key={this.props.view}>
         <div style={visibilityStyle} className="lockBtnCont">

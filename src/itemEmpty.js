@@ -9,11 +9,16 @@ class ItemEmpty extends Component {
       endOfFeedVisibilityStyle={display: 'block'};
     }
 
+    var slideStyle={};
+    if (this.props.view == 'items') {
+      slideStyle={backgroundColor:'#cccccc'};
+    }
+
     return (
       <div>
         <div className="item" style={endOfFeedVisibilityStyle}>
           <div className="itemCont">
-            <div className="itemHeader">
+            <div className="itemHeader" style={slideStyle}>
               <div className="itemHeaderUsername">End of feed</div>
               <div className="clearBoth"></div>
             </div>
