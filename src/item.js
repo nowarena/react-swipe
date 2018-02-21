@@ -20,11 +20,13 @@ class Item extends Component {
       usernameLink = '<a target="_blank" href="http://' + socialMediaArr.site + '/' + username + '">' + username + '</a>';
       created_at = socialMediaArr.created_at;
       avatar = '<a target=_blank href="' + socialMediaArr.link + '"><img className="avatarImg" src="' + socialMediaArr.avatar + '"/></a>';
+      //this.props.lastItemsIdToRender(socialMediaArr.items_id);
+
     }
 
     var slideStyle={};
     if (this.props.view == 'items') {
-      slideStyle={backgroundColor:'#cccccc'};
+      slideStyle={backgroundColor:'#ddd'};
     }
 
     return (

@@ -27,6 +27,7 @@ class Page extends React.Component {
     super(props);
     this.state = {view: 'cats', itemsId:0};
     this.setView = this.setView.bind(this);
+    //this.lastItemsIdToRender = this.lastItemsIdToRender.bind(this);
   }
 
   gotoTop () {
@@ -43,12 +44,31 @@ class Page extends React.Component {
     this.reactSwipe.prev();
   }
 
+  // This manages the view, wither 'cats' or 'items'. If the view is 'items', then all the slides for that item is display,
+  // otherwise if the view is 'cats', the items in the category get their most recent social media displayed in the slide
   setView(currentView, itemsId) {
     var viewVal = (currentView == 'items') ? 'cats' : 'items';
     this.setState({
       view: viewVal,
       itemsId: itemsId
-    });
+    }, () => this.afterSetViewSetStateFinished(viewVal));
+
+
+  }
+
+  afterSetViewSetStateFinished(viewVal) {
+
+    if (viewVal == 'items') {
+      // they've clicked on lock swipe, jump to the next slide for that item
+      setTimeout(() => this.next(), 100);
+    } else {
+      // they've unlocked the the lock swipe, return them to the last item they viewed, don't go to the top
+      //console.log("here");
+    }
+  }
+
+  lastItemsIdToRender(itemsId) {
+   //console.log("lastItemsIdToRender", itemsId);
 
   }
 
@@ -61,7 +81,7 @@ class Page extends React.Component {
 
     // CREATE A LOOKUP ARRAY TO MAP INDEX POSITION 0-9 TO ITEMS_ID (1333,333,ETC) ACCORDING TO DATE
     // OF MOST RECENT SOCIAL MEDIA
-    //
+    // TODO - set array of items_id by rank in php, set in json and return for use instead of this. a prebuilt itemsIdLookupArr
     // create an array to map items_id and their most recent social media date to position in this.props.feed array
     var index = 0;
     var itemsDateUtArr = new Array;
@@ -69,6 +89,7 @@ class Page extends React.Component {
       itemsDateUtArr[index] = this.props.feed[itemsId].social_media[0].created_at_ut;
       index++;
     }
+
     // order the items by most recent social media date
     itemsDateUtArr.sort();
     itemsDateUtArr.reverse();
@@ -86,7 +107,6 @@ class Page extends React.Component {
 
     }
     // END CREATE LOOKUP TABLE ARRAY
-
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
 
       var endOfFeedVisibility=true;
@@ -115,7 +135,7 @@ class Page extends React.Component {
       return (
         <div key={i}>
           <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view}></Lockbtn>
-          <Item view={this.state.view} socialMediaArr={socialMediaArr}></Item>
+          <Item lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)} view={this.state.view} socialMediaArr={socialMediaArr}></Item>
           <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
@@ -129,15 +149,24 @@ class Page extends React.Component {
       disableScroll: query.disableScroll === 'true',
       continuous: query.continuous === 'true',
       callback () {
-        console.log('slide changed');
+        //console.log('slide changed');
       },
       transitionEnd () {
-        console.log('ended transition');
+        //console.log('ended transition');
       }
     };
-
+    console.log("return itemsId", itemsId);
+    // The last itemsId when viewing 'cats' will always be undefined because the paneNodes array creation sets that undefined value
+    // last in the loop.
+    // itemsId gets set when viewing items
     return (
       <div key={itemsId} className="center">
+        <div className='parentCont'>
+          <div className='parentTitleCont'>
+            <div className='parentTitle'>{this.props.title}</div>
+          </div>
+        </div>
+        <div className='clearBoth'></div>
         <ReactSwipe
           ref={reactSwipe => this.reactSwipe = reactSwipe}
           className="mySwipe"
@@ -145,7 +174,7 @@ class Page extends React.Component {
           {paneNodes}
         </ReactSwipe>
 
-        <div className="navBtnCont">
+        <div className="navBtnCont"  data-id={itemsId}>
           <button className="navBtn prevBtn" type="button" onClick={::this.prev}>&laquo;</button>
           <button className="navBtn nextbtn" type="button" onClick={::this.next}>&raquo;</button>
         </div>
@@ -157,43 +186,43 @@ class Page extends React.Component {
 }
 
 ReactDOM.render(
-  <Page feed={fashionJson} />,
+  <Page title='Fashion' feed={fashionJson} />,
   document.getElementById('fashion')
 );
 
 ReactDOM.render(
-  <Page feed={shoppingJson} />,
+  <Page title='Shopping' feed={shoppingJson} />,
   document.getElementById('shopping')
 );
 
 ReactDOM.render(
-  <Page feed={newspeopleJson} />,
+  <Page title='News & People' feed={newspeopleJson} />,
   document.getElementById('newspeople')
 );
 
 ReactDOM.render(
-  <Page feed={techJson} />,
+  <Page title='Tech' feed={techJson} />,
   document.getElementById('tech')
 );
 
 ReactDOM.render(
-  <Page feed={diningJson} />,
+  <Page title='Dining' feed={diningJson} />,
   document.getElementById('dining')
 );
 
 ReactDOM.render(
-  <Page feed={coffeecasualeatsJson} />,
+  <Page title='Casual Eats & Coffee' feed={coffeecasualeatsJson} />,
   document.getElementById('coffeecasualeats')
 );
 
 ReactDOM.render(
-  <Page feed={spafitnessJson} />,
+  <Page title='Spa & Fitness' feed={spafitnessJson} />,
   document.getElementById('spafitness')
 );
 
 
 ReactDOM.render(
-  <Page feed={otherJson} />,
+  <Page title='Other' feed={otherJson} />,
   document.getElementById('other')
 );
 // ReactDOM.render(

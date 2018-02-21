@@ -58,7 +58,7 @@ a:hover {
 }
 
 .rowCont {
-    height:240px;
+    height:280px;
 }
 .navBtn {
     border:2px solid #dddddd;
@@ -168,7 +168,7 @@ h2 {
 }
 .itemHeaderUsername {
     float:left;
-    padding:8px;
+    padding:8px 8px 8px 12px;
 }
 .itemHeaderCreatedAt {
     float:left;
@@ -193,6 +193,9 @@ h2 {
 .parentTitle {
     font-weight:bold;
     font-size:22px;
+    padding-left:4px;
+    float:left;
+    padding-top:1px;
 }
 .parentTitleCont {
     width:216px;
