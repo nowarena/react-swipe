@@ -71,10 +71,10 @@ a:hover {
     width:190px;
 }
 .prevBtn {
-
+    border-radius: 15px 0px 0px 15px;
 }
 .nextBtn {
-
+    border-radius: 0px 15px 15px 0px;
 }
 
 @media screen and (max-width:800px) {
@@ -120,15 +120,34 @@ h2 {
     color:  #337ab7;
     font-weight:bold;
 }
+.outboundLinkCont {
+    text-align:center;
+    width:50px;
+    border:0px solid black;
+    clear:both;
+    background-color:#ebebeb;
+    border-radius: 15px;
+    margin-top:8px;
+}
+.outboundLink {
+    font-size:30px;
+    text-decoration:none;
+}
 
 .avatarImg {
     border:1px solid #cccccc;
     width:50px;
+    min-height:50px;
 
+}
+.leftColumn {
+    float:left;
+    border:0px solid black;
 }
 .itemAvatarCont {
     float:left;
     padding:1px;
+    min-height:50px;
 }
 .itemCont {
     background-color:#ffffff;
@@ -136,7 +155,9 @@ h2 {
 }
 .itemTextCont, .itemTextContEmpty {
     padding:2px;
-    margin-left:55px;
+    margin-left:59px;
+    border:0px solid blue;
+
 }
 .itemTextContEmpty {
     height:180px;

@@ -129,7 +129,7 @@ class Page extends React.Component {
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
 
       var endOfFeedVisibility=true;
-      var socialMediaArr = [];
+      var socialMediaObj = [];
       if (this.state.view == 'cats') {
         // use the lookup array to map index position to itemsId
         itemsId = itemsIdLookupArr[i];
@@ -141,20 +141,20 @@ class Page extends React.Component {
          && typeof this.props.feed[itemsId] != 'undefined'
          && typeof this.props.feed[itemsId].social_media != 'undefined'
          && typeof this.props.feed[itemsId].social_media[0] != 'undefined') {
-          socialMediaArr = this.props.feed[itemsId].social_media[0];// this gets the most recent social_media item for a member in position i of this category
+          socialMediaObj = this.props.feed[itemsId].social_media[0];// this gets the most recent social_media item for a member in position i of this category
           endOfFeedVisibility=false;
       } else if (this.state.view == 'items'
          && typeof this.props.feed[itemsId] != 'undefined'
          && typeof this.props.feed[itemsId].social_media != 'undefined'
          && typeof this.props.feed[itemsId].social_media[i] != 'undefined') {
-          socialMediaArr = this.props.feed[itemsId].social_media[i];
+          socialMediaObj = this.props.feed[itemsId].social_media[i];// this gets the social media for an item based on position i of social media being browsed
           endOfFeedVisibility=false;
       }
 
       return (
         <div key={i}>
           <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view}></Lockbtn>
-          <Item lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)} view={this.state.view} socialMediaArr={socialMediaArr}></Item>
+          <Item lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)} view={this.state.view} socialMediaObj={socialMediaObj}></Item>
           <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
@@ -196,7 +196,7 @@ class Page extends React.Component {
 
         <div className="navBtnCont"  data-id={itemsId}>
           <button className="navBtn prevBtn" type="button" onClick={::this.prev}>&laquo;</button>
-          <button className="navBtn nextbtn" type="button" onClick={::this.next}>&raquo;</button>
+          <button className="navBtn nextBtn" type="button" onClick={::this.next}>&raquo;</button>
         </div>
 
       </div>
