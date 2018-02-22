@@ -77,16 +77,6 @@ a:hover {
     border-radius: 0px 15px 15px 0px;
 }
 
-@media screen and (max-width:800px) {
-    .navBtnCont {
-        display:none;
-    }
-    .refreshIcon {
-        display:none;
-    }
-}
-
-
 
 h1 {
     font-size: 34px;
@@ -127,7 +117,7 @@ h2 {
     clear:both;
     background-color:#ebebeb;
     border-radius: 15px;
-    margin-top:8px;
+    margin-top:78px;
 }
 .outboundLink {
     font-size:30px;
@@ -245,6 +235,7 @@ h2 {
 .socialMediaThumb {
     width:100px;
     height:100px;
+    border:1px solid #3c3c3c;
 }
 
 #relativeDiv {
@@ -270,3 +261,17 @@ h2 {
     color:#337ab7;
     cursor:pointer;
 }
+
+
+@media screen and (max-width:800px) {
+    .navBtnCont {
+        display:none;
+    }
+    .refreshIcon {
+        display:none;
+    }
+    .outboundLinkCont {
+        background-color:#f3f3f3;
+    }
+}
+
