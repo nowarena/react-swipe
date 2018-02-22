@@ -12,7 +12,7 @@ var fashionJson = require('../json/fashion.json');
 var otherJson = require('../json/other.json');
 var diningJson = require('../json/dining.json');
 //var servicesJson = require('../json/services.json');
-var coffeecasualeatsJson = require('../json/coffeecasualeats.json');
+var coffeecasualeatsJson = require('../json/casualeatscoffee.json');
 var spafitnessJson = require('../json/spafitness.json');
 var techJson = require('../json/tech.json');
 
@@ -27,6 +27,7 @@ class Page extends React.Component {
     super(props);
     this.state = {view: 'cats', itemsId:0};
     this.setView = this.setView.bind(this);
+    this.lastCatsPos = 0;
     //this.lastItemsIdToRender = this.lastItemsIdToRender.bind(this);
   }
 
@@ -34,6 +35,7 @@ class Page extends React.Component {
     do {
       this.prev();
     } while (this.reactSwipe.getPos() > 0);
+    console.log("gotoTOp");
   }
 
   next () {
@@ -44,9 +46,19 @@ class Page extends React.Component {
     this.reactSwipe.prev();
   }
 
+  getPos() {
+    return this.reactSwipe.getPos();
+  }
+
   // This manages the view, wither 'cats' or 'items'. If the view is 'items', then all the slides for that item is display,
   // otherwise if the view is 'cats', the items in the category get their most recent social media displayed in the slide
   setView(currentView, itemsId) {
+
+    if (currentView == 'cats') {
+      this.lastCatsPos = this.getPos();
+      console.log("lastCatsPos", this.lastCatsPos);
+    }
+
     var viewVal = (currentView == 'items') ? 'cats' : 'items';
     this.setState({
       view: viewVal,
@@ -64,6 +76,13 @@ class Page extends React.Component {
     } else {
       // they've unlocked the the lock swipe, return them to the last item they viewed, don't go to the top
       //console.log("here");
+      console.log("pos", this.lastCatsPos);
+      console.log("getPos", this.getPos());
+      while (this.getPos() < this.lastCatsPos) {
+        this.next();
+      } ;
+      //console.log("afterSet", itemsId);
+      setTimeout(() => this.next(), 400);
     }
   }
 
@@ -155,7 +174,7 @@ class Page extends React.Component {
         //console.log('ended transition');
       }
     };
-    console.log("return itemsId", itemsId);
+    //console.log("return itemsId", itemsId);
     // The last itemsId when viewing 'cats' will always be undefined because the paneNodes array creation sets that undefined value
     // last in the loop.
     // itemsId gets set when viewing items
@@ -164,6 +183,7 @@ class Page extends React.Component {
         <div className='parentCont'>
           <div className='parentTitleCont'>
             <div className='parentTitle'>{this.props.title}</div>
+            <div className='refreshIcon' onClick={() => this.gotoTop()}>&#x21ba;</div>
           </div>
         </div>
         <div className='clearBoth'></div>

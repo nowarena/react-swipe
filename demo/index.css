@@ -68,7 +68,7 @@ a:hover {
     font-size:16px;
     font-weight:bold;
     cursor: pointer;
-    width:100px;
+    width:190px;
 }
 .prevBtn {
 
@@ -81,7 +81,9 @@ a:hover {
     .navBtnCont {
         display:none;
     }
-
+    .refreshIcon {
+        display:none;
+    }
 }
 
 
@@ -172,7 +174,8 @@ h2 {
 }
 .itemHeaderCreatedAt {
     float:left;
-    padding:8px;
+    padding:2px;
+    font-size:10px;
 }
 .firstImage::before {
     content: ' ';
@@ -192,10 +195,10 @@ h2 {
 
 .parentTitle {
     font-weight:bold;
-    font-size:22px;
+    font-size:18px;
     padding-left:4px;
     float:left;
-    padding-top:1px;
+    padding-top:5px;
 }
 .parentTitleCont {
     width:216px;
@@ -237,4 +240,12 @@ h2 {
 }
 .clearBoth {
     clear:both;
+}
+
+.refreshIcon {
+    float:right;
+    padding-right:10px;
+    font-size:25px;
+    color:#337ab7;
+    cursor:pointer;
 }

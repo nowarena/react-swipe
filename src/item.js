@@ -18,7 +18,7 @@ class Item extends Component {
       text = socialMediaArr.text;
       username = socialMediaArr.username;
       usernameLink = '<a target="_blank" href="http://' + socialMediaArr.site + '/' + username + '">' + username + '</a>';
-      created_at = socialMediaArr.created_at;
+      created_at = socialMediaArr.created_at.replace('2018-','');
       avatar = '<a target=_blank href="' + socialMediaArr.link + '"><img className="avatarImg" src="' + socialMediaArr.avatar + '"/></a>';
       //this.props.lastItemsIdToRender(socialMediaArr.items_id);
 

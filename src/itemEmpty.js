@@ -24,7 +24,9 @@ class ItemEmpty extends Component {
             </div>
             <div className="clearBoth"></div>
             <div className="itemBody">
-              <div className="itemTextContEmpty"><br /><br /><button className="navButton" type="button" onClick={() => this.props.gotoTop()}>Return to Top of Feed</button></div>
+              <div className="itemTextContEmpty"><br /><br />
+                <button className="navBtn" type="button" onClick={() => this.props.gotoTop()}>Return to Top of Feed</button>
+              </div>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ class Lockbtn extends Component {
 
     var btnText = 'Lock Swipe';
     if (this.props.view == 'items') {
-      btnText = 'Swipe All';
+      btnText = 'Back to All';
     }
 
     var visibilityStyle = {display:'block'};
