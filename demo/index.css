@@ -118,6 +118,10 @@ h2 {
     background-color:#ebebeb;
     border-radius: 15px;
     margin-top:78px;
+    position:absolute;
+    right:3px;
+    bottom:3px;
+    z-index:5;
 }
 .outboundLink {
     font-size:30px;
@@ -139,6 +143,29 @@ h2 {
     padding:1px;
     min-height:50px;
 }
+.mapIcon {
+
+}
+.infoIcon {
+    float:left;
+    width:50px;
+    height:60px;
+    border:0px solid black;
+    text-align:center;
+    font-weight:bold;
+    font-size:25px;
+    background-color:#ebebeb;
+    border-radius:15px;
+    color: #337ab7;
+    padding:0px;
+    margin-bottom:5px;
+    margin-top:5px;
+    cursor:pointer;
+    line-height:60px;
+}
+.hoursCont {
+    margin:2px 0px 2px 0px;
+}
 .itemCont {
     background-color:#ffffff;
     position:relative;
@@ -147,6 +174,7 @@ h2 {
     padding:2px;
     margin-left:59px;
     border:0px solid blue;
+    font-size:20px;
 
 }
 .itemTextContEmpty {
@@ -206,7 +234,7 @@ h2 {
 
 .parentTitle {
     font-weight:bold;
-    font-size:18px;
+    font-size:20px;
     padding-left:4px;
     float:left;
     padding-top:5px;

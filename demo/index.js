@@ -12,7 +12,7 @@ var fashionJson = require('../json/fashion.json');
 var otherJson = require('../json/other.json');
 var diningJson = require('../json/dining.json');
 var servicesJson = require('../json/services.json');
-var coffeecasualeatsJson = require('../json/casualeatscoffee.json');
+var casualeatscoffeeJson = require('../json/casualeatscoffee.json');
 var healthbeautyJson = require('../json/healthbeauty.json');
 var techJson = require('../json/tech.json');
 
@@ -25,10 +25,10 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {view: 'cats', itemsId:0};
+    this.state = {view: 'cats', itemsId:0, displayInfo:0};
     this.setView = this.setView.bind(this);
     this.lastCatsPos = 0;
-    //this.lastItemsIdToRender = this.lastItemsIdToRender.bind(this);
+    this.toggleDisplayInfo = this.toggleDisplayInfo.bind(this);
   }
 
   gotoTop () {
@@ -88,8 +88,17 @@ class Page extends React.Component {
     }
   }
 
-  lastItemsIdToRender(itemsId) {
-   //console.log("lastItemsIdToRender", itemsId);
+  toggleDisplayInfo(displayInfo) {
+    console.log("toggleDisplayInfo entered with", displayInfo);
+    if (displayInfo == 0) {
+      this.setState({
+        displayInfo:1
+      });
+    } else {
+      this.setState({
+        displayInfo:0
+      });
+    }
 
   }
 
@@ -103,7 +112,6 @@ class Page extends React.Component {
     // create an array to map items_id and their most recent social media date to position in this.props.feed array
     var itemsRankArr = [];
     for(var itemsId in this.props.feed) {
-      console.log("this.props.feed[itemsId]", this.props.feed[itemsId]);
       itemsRankArr[this.props.feed[itemsId].rank] = itemsId;
     }
 
@@ -126,6 +134,7 @@ class Page extends React.Component {
           endOfFeedVisibility=false;
           var title = this.props.feed[itemsId].title;
           var avatar = this.props.feed[itemsId].avatar;
+          var itemObj = this.props.feed[itemsId];
       } else if (this.state.view == 'items'
          && typeof this.props.feed[itemsId] != 'undefined'
          && typeof this.props.feed[itemsId].social_media != 'undefined'
@@ -134,12 +143,19 @@ class Page extends React.Component {
           endOfFeedVisibility=false;
           var title = this.props.feed[itemsId].title;
           var avatar = this.props.feed[itemsId].avatar;
+          var itemObj = this.props.feed[itemsId];
       }
 
       return (
         <div key={i}>
-          <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view}></Lockbtn>
-          <Item lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)} view={this.state.view} socialMediaObj={socialMediaObj} title={title} avatar={avatar}></Item>
+          <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view} displayInfo={this.state.displayInfo}></Lockbtn>
+          <Item
+            displayInfo={this.state.displayInfo}
+            toggleDisplayInfo={() => this.toggleDisplayInfo(this.state.displayInfo)}
+            lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)}
+            view={this.state.view}
+            socialMediaObj={socialMediaObj}
+            itemObj={itemObj}></Item>
           <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
@@ -160,7 +176,7 @@ class Page extends React.Component {
       }
     };
 
-    //console.log("return itemsId", itemsId);
+    //
     // The last itemsId when viewing 'cats' will always be undefined because the paneNodes array creation sets that undefined value
     // last in the loop.
     // itemsId gets set when viewing items
@@ -192,6 +208,11 @@ class Page extends React.Component {
 }
 
 ReactDOM.render(
+  <Page title='Dining' feed={diningJson} />,
+  document.getElementById('dining')
+);
+
+ReactDOM.render(
   <Page title='Fashion' feed={fashionJson} />,
   document.getElementById('fashion')
 );
@@ -212,13 +233,8 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-  <Page title='Dining' feed={diningJson} />,
-  document.getElementById('dining')
-);
-
-ReactDOM.render(
-  <Page title='Casual Eats & Coffee' feed={coffeecasualeatsJson} />,
-  document.getElementById('coffeecasualeats')
+  <Page title='Casual Eats & Coffee' feed={casualeatscoffeeJson} />,
+  document.getElementById('casualeatscoffee')
 );
 
 ReactDOM.render(
@@ -231,8 +247,8 @@ ReactDOM.render(
 //   <Page title='Other' feed={otherJson} />,
 //   document.getElementById('other')
 // );
-
-ReactDOM.render(
-  <Page feed={servicesJson} />,
-  document.getElementById('services')
-);
+//
+// ReactDOM.render(
+//   <Page title='Services' feed={servicesJson} />,
+//   document.getElementById('services')
+// );

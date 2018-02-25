@@ -9,8 +9,9 @@ class Lockbtn extends Component {
       btnText = 'Back to All';
     }
 
+    // Don't display lock swipe if 'info' is being viewed or 'goto top of feed' aka undefined itemsId
     var visibilityStyle = {display:'block'};
-    if (typeof this.props.itemsId == 'undefined') {
+    if (typeof this.props.itemsId == 'undefined' || this.props.displayInfo == 1) {
       visibilityStyle = {display: 'none'};
     }
 
