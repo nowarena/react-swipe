@@ -71,7 +71,7 @@ class ReactSwipe extends Component {
     this.swipe = void 0;
   }
 
-  next(val) {
+  next() {
     //console.log('this.swipe.next');
     //console.log('pos', this.swipe.getPos());
 
