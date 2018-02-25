@@ -18,7 +18,7 @@ class Item extends Component {
       visibilityStyle={display: 'block'};
       text = socialMediaObj.text;
       username = socialMediaObj.username;
-      usernameLink = '<a target="_blank" href="http://' + socialMediaObj.site + '/' + username + '">' + username + '</a>';
+      usernameLink = '<a target="_blank" href="http://' + socialMediaObj.site + '/' + username + '">' + this.props.title + '</a>';
       created_at = socialMediaObj.created_at.replace('2018-','');
       avatar = '<a target=_blank href="' + socialMediaObj.link + '"><img class="avatarImg" src="' + socialMediaObj.avatar + '"/></a>';
       outboundLink = '<a class="outboundLink" target=_blank href="' + socialMediaObj.link + '">&#8599;</a>';
