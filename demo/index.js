@@ -125,6 +125,7 @@ class Page extends React.Component {
           socialMediaObj = this.props.feed[itemsId].social_media[0];// this gets the most recent social_media item for a member in position i of this category
           endOfFeedVisibility=false;
           var title = this.props.feed[itemsId].title;
+          var avatar = this.props.feed[itemsId].avatar;
       } else if (this.state.view == 'items'
          && typeof this.props.feed[itemsId] != 'undefined'
          && typeof this.props.feed[itemsId].social_media != 'undefined'
@@ -132,12 +133,13 @@ class Page extends React.Component {
           socialMediaObj = this.props.feed[itemsId].social_media[i];// this gets the social media for an item based on position i of social media being browsed
           endOfFeedVisibility=false;
           var title = this.props.feed[itemsId].title;
+          var avatar = this.props.feed[itemsId].avatar;
       }
 
       return (
         <div key={i}>
           <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view}></Lockbtn>
-          <Item lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)} view={this.state.view} socialMediaObj={socialMediaObj} title={title}></Item>
+          <Item lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)} view={this.state.view} socialMediaObj={socialMediaObj} title={title} avatar={avatar}></Item>
           <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
