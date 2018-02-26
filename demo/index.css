@@ -64,7 +64,7 @@ a:hover {
     border:2px solid #dddddd;
     padding:5px 8px 5px 8px;
     margin-right:2px;
-    background-color:#cccccc;
+    background-color:#ebebeb;
     font-size:16px;
     font-weight:bold;
     cursor: pointer;
@@ -113,15 +113,17 @@ h2 {
 .outboundLinkCont {
     text-align:center;
     width:50px;
+    height:50px;
+    line-height:50px;
     border:0px solid black;
     clear:both;
     background-color:#ebebeb;
     border-radius: 15px;
-    margin-top:78px;
     position:absolute;
     right:3px;
     bottom:3px;
     z-index:5;
+
 }
 .outboundLink {
     font-size:30px;
@@ -130,26 +132,35 @@ h2 {
 
 .avatarImg {
     border:1px solid #cccccc;
-    width:50px;
-    min-height:50px;
+    width:30px;
+    min-height:30px;
 
 }
-.leftColumn {
+.infoBtnsCont {
     float:left;
     border:0px solid black;
+    width:200px;
+    height:60px;
+    position:absolute;
+    bottom:0px;
+    left:0px;
 }
 .itemAvatarCont {
     float:left;
     padding:1px;
-    min-height:50px;
+    min-height:34px;
 }
-.mapIcon {
-
+.mapImgCont {
+    float:left;
+}
+.mapImg {
+    width:60px;
+    height:60px;
 }
 .infoIcon {
     float:left;
     width:50px;
-    height:60px;
+    height:50px;
     border:0px solid black;
     text-align:center;
     font-weight:bold;
@@ -158,10 +169,9 @@ h2 {
     border-radius:15px;
     color: #337ab7;
     padding:0px;
-    margin-bottom:5px;
-    margin-top:5px;
+    margin:5px;
     cursor:pointer;
-    line-height:60px;
+    line-height:50px;
 }
 .hoursCont {
     margin:2px 0px 2px 0px;
@@ -173,8 +183,6 @@ h2 {
 }
 .itemTextCont, .itemTextContEmpty {
     padding:2px;
-    margin-left:59px;
-    border:0px solid blue;
     font-size:20px;
 
 }
@@ -218,10 +226,16 @@ h2 {
     padding:2px;
     font-size:10px;
 }
-.firstImage::before {
-    content: ' ';
-    display: block;
+.firstImage {
 }
+.imageThumbLink {
+    float:left;
+    margin-right:2px;
+}
+/*.firstImage::before {*/
+    /*content: ' ';*/
+    /*display: block;*/
+/*}*/
 
 .parentCont {
     margin-left:10px;
@@ -266,6 +280,7 @@ h2 {
     width:100px;
     height:100px;
     border:1px solid #3c3c3c;
+    margin:1px;
 }
 
 #relativeDiv {

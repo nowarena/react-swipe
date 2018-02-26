@@ -119,14 +119,15 @@ class Item extends Component {
         <div className="item" style={visibilityStyle}>
           <div className="itemCont">
             <div className="itemHeader" style={slideStyle}>
+              <div className="itemAvatarCont" dangerouslySetInnerHTML={{__html:avatar}}/>
               <div className="itemHeaderUsername" dangerouslySetInnerHTML={{__html:usernameLink}}/>
               <div className="itemHeaderCreatedAt" dangerouslySetInnerHTML={{__html:created_at}}/>
               <div className="clearBoth"></div>
             </div>
             <div className="clearBoth"></div>
             <div className="itemBody">
-              <div className="leftColumn">
-                <div className="itemAvatarCont" dangerouslySetInnerHTML={{__html:avatar}}/>
+              <div className="infoBtnsCont">
+
                 <div className="clearBoth"></div>
                 <InfoBtns
                   hasInfo={hasInfo}
