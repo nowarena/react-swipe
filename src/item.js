@@ -21,7 +21,11 @@ class Item extends Component {
       visibilityStyle={display: 'block'};
       text = socialMediaObj.text;
       username = socialMediaObj.username;
-      usernameLink = '<a target="_blank" href="http://' + socialMediaObj.site + '/' + username + '">' + itemObj.title + '</a>';
+      if (socialMediaObj.site != 'yelp.com') {
+        usernameLink = '<a target="_blank" href="https://' + socialMediaObj.site + '/' + username + '">' + itemObj.title + '</a>';
+      } else {
+        usernameLink = '<a target="_blank" href="https://www.yelp.com/biz/' + username + '">' + itemObj.title + '</a>';
+      }
       if (socialMediaObj.created_at !== null) {
         //created_at = socialMediaObj.created_at.replace('2018-','');
       }

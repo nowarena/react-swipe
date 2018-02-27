@@ -70,7 +70,7 @@ a:hover {
     background-color:#ebebeb;
     border-radius:15px;
     color: #337ab7;
-    height:50px;
+    height:54px;
 }
 
 .navBtnCont {
@@ -78,7 +78,8 @@ a:hover {
     width:400px;
     border:0px solid black;
     position:relative;
-    top:-48px;
+    top: -278px;
+    right: -270px;
 
 }
 
@@ -93,13 +94,16 @@ a:hover {
     font-size:16px;
     font-weight:bold;
     cursor: pointer;
-    width:190px;
+    width:140px;
+    border-radius: 15px;
 }
 .prevBtn {
     border-radius: 15px 0px 0px 15px;
+    width:100px;
 }
 .nextBtn {
     border-radius: 0px 15px 15px 0px;
+    width:100px;
 }
 
 
@@ -113,6 +117,14 @@ h2 {
     font-size: 14px;
     color: #3c3c3c;
     margin:10px;
+}
+
+.divider {
+    width:80%;
+    margin-bottom:20px;
+    border-color:#cccccc;
+    border-width:1px 0px 0px 0px;
+    height:3px;
 }
 
 .mySwipe {
@@ -349,6 +361,9 @@ h2 {
     .title {
         width:294px;
     }
+    .divider {
+        display:none;
+    }
 }
 
 @media screen and (max-width:375px) {
@@ -357,6 +372,9 @@ h2 {
     }
     .rowCont {
         height: 325px
+    }
+    .divider {
+        display:none;
     }
 }
 

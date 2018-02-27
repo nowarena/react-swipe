@@ -11,8 +11,8 @@ class Lockbtn extends Component {
 
     // Don't display lock swipe if 'info' is being viewed or 'goto top of feed' aka undefined itemsId
     var visibilityStyle = {display:'block'};
-    if (typeof this.props.itemsId == 'undefined' || this.props.displayInfo == 1) {
-      //visibilityStyle = {display: 'none'};
+    if (typeof this.props.itemsId == 'undefined' || this.props.endOfFeedVisibility) {
+      visibilityStyle = {display: 'none'};
     }
 
     return (

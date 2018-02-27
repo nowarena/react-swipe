@@ -145,7 +145,12 @@ class Page extends React.Component {
 
       return (
         <div key={i}>
-          <Lockbtn setView={this.setView} itemsId={itemsId} view={this.state.view} displayInfo={this.state.displayInfo}></Lockbtn>
+          <Lockbtn
+            setView={this.setView}
+            itemsId={itemsId}
+            endOfFeedVisibility={endOfFeedVisibility}
+            view={this.state.view}
+            displayInfo={this.state.displayInfo}></Lockbtn>
           <Item
             displayInfo={this.state.displayInfo}
             toggleDisplayInfo={() => this.toggleDisplayInfo(this.state.displayInfo)}
