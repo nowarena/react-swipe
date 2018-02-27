@@ -71,12 +71,8 @@ class Item extends Component {
         info+=itemObj.address;
         info+="<br />";
       }
-      if (typeof itemObj.phone_number != 'undefined' && itemObj.phone_number != '') {
-        info = (info != '') ? info + "<br />" : info;
-        info+=itemObj.phone_number;
-      }
       if (typeof itemObj.hours != 'undefined' && itemObj.hours != '') {
-        info = (info != '') ? info + "<br />" : info;
+        //info = (info != '') ? info + "<br />" : info;
         var hours = '';
         for (var i in itemObj.hours) {
           if (itemObj.hours[i].includes(day)) {
@@ -87,9 +83,10 @@ class Item extends Component {
       }
       if (typeof itemObj.phone != 'undefined' && itemObj.phone != '') {
         info+= itemObj.phone;
+        info+="<br />";
       }
       if (typeof itemObj.website != 'undefined' && itemObj.website != null) {
-        info = (info != '') ? info + "<br /><br />" : info;
+        //info = (info != '') ? info + "<br /><br />" : info;
         var websiteDisplay = itemObj.website.replace("http://", "");
         info+= "<a target='_blank' href='" + itemObj.website + "'>" + websiteDisplay + "</a>";
       }
@@ -99,10 +96,11 @@ class Item extends Component {
       }
     }
 
+    var outboundLinkVisibility = {display:'block'};
     if (this.props.displayInfo == 1) {
       var infoVisibility = {display:'block'};
       var itemTextVisibility = {display:'none'};
-      var outboundLinkVisibility = {display:'none'};
+      //var outboundLinkVisibility = {display:'none'};
     } else {
       var itemTextVisibility = {display:'block'};
       var outboundLinkVisibility = {display:'block'};

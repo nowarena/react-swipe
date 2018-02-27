@@ -8,8 +8,29 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, del, dfn, em, 
     background: transparent;
 }
 
-.titleHeader {
-    margin-bottom:4px;
+.titleCont {
+    border-radius:15px;
+    color: #f3f3f3;
+    margin: 6px auto;
+    background-color: #cccccc;
+    max-width: 333px;
+    height: 53px;
+    padding:2px;
+}
+.title {
+    border-radius:15px;
+    text-align:center;
+    background-color: #337ab7;
+    padding: 4px;
+    border: 2px solid #f3f3f3;
+    width: 320px;
+}
+.subHeader {
+    text-align:center;
+    color:#000000;
+    margin-bottom:6px;
+    margin-top:-2px;
+    font-size:15px;
 }
 
 body {
@@ -32,8 +53,8 @@ a:hover {
 
 .lockBtnCont {
     position:absolute;
-    top:10px;
-    right:30px;
+    bottom: 14px;
+    right: 80px;
     z-index:3;
 
 }
@@ -46,6 +67,10 @@ a:hover {
     font-weight:bold;
     cursor: pointer;
     width:100px;
+    background-color:#ebebeb;
+    border-radius:15px;
+    color: #337ab7;
+    height:50px;
 }
 
 .navBtnCont {
@@ -121,13 +146,14 @@ h2 {
     border-radius: 15px;
     position:absolute;
     right:3px;
-    bottom:3px;
+    bottom:1px;
     z-index:5;
-
+    border: 2px solid #dddddd;
 }
 .outboundLink {
     font-size:30px;
     text-decoration:none;
+
 }
 
 .avatarImg {
@@ -152,6 +178,7 @@ h2 {
 }
 .mapImgCont {
     float:left;
+    margin-top: 3px;
 }
 .mapImg {
     width:60px;
@@ -161,7 +188,7 @@ h2 {
     float:left;
     width:50px;
     height:50px;
-    border:0px solid black;
+    border: 2px solid #dddddd;
     text-align:center;
     font-weight:bold;
     font-size:25px;
@@ -201,9 +228,6 @@ h2 {
 .createdAtCont {
     float:right;
     font-size:14px;
-}
-.titleCont {
-    text-align:left;
 }
 
 .itemHeader {
@@ -318,6 +342,21 @@ h2 {
     }
     .outboundLinkCont {
         background-color:#f3f3f3;
+    }
+    .titleCont {
+        width:306px;
+    }
+    .title {
+        width:294px;
+    }
+}
+
+@media screen and (max-width:375px) {
+    .itemBody {
+        height:225px;
+    }
+    .rowCont {
+        height: 325px
     }
 }
 
