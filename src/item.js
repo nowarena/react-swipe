@@ -22,9 +22,9 @@ class Item extends Component {
       text = socialMediaObj.text;
       username = socialMediaObj.username;
       if (socialMediaObj.site != 'yelp.com') {
-        usernameLink = '<a target="_blank" href="https://' + socialMediaObj.site + '/' + username + '">' + itemObj.title + '</a>';
+        usernameLink = '<a target="_blank" class="itemHeaderUsernameLink" href="https://' + socialMediaObj.site + '/' + username + '">' + itemObj.title + '</a>';
       } else {
-        usernameLink = '<a target="_blank" href="https://www.yelp.com/biz/' + username + '">' + itemObj.title + '</a>';
+        usernameLink = '<a target="_blank" class="itemHeaderUsernameLink" href="https://www.yelp.com/biz/' + username + '">' + itemObj.title + '</a>';
       }
       if (socialMediaObj.created_at !== null) {
         //created_at = socialMediaObj.created_at.replace('2018-','');
@@ -100,20 +100,20 @@ class Item extends Component {
       }
     }
 
-    var outboundLinkVisibility = {display:'block'};
+    var outboundLinkVisibility = {display:'none'};
     if (this.props.displayInfo == 1) {
       var infoVisibility = {display:'block'};
       var itemTextVisibility = {display:'none'};
       //var outboundLinkVisibility = {display:'none'};
     } else {
       var itemTextVisibility = {display:'block'};
-      var outboundLinkVisibility = {display:'block'};
+      //var outboundLinkVisibility = {display:'block'};
       var infoVisibility = {display:'none'};
     }
 
     var slideStyle={};
     if (this.props.view == 'items') {
-      slideStyle={backgroundColor:'#ddd'};
+      //slideStyle={backgroundColor:'#ddd'};
     }
 
     return (
@@ -124,19 +124,15 @@ class Item extends Component {
               <div className="itemAvatarCont" dangerouslySetInnerHTML={{__html:avatar}}/>
               <div className="itemHeaderUsername" dangerouslySetInnerHTML={{__html:usernameLink}}/>
               <div className="itemHeaderCreatedAt" dangerouslySetInnerHTML={{__html:created_at}}/>
+              <InfoBtns
+                hasInfo={hasInfo}
+                displayInfo={this.props.displayInfo}
+                toggleDisplayInfo={() => this.props.toggleDisplayInfo(this.props.displayInfo)}
+                itemObj={itemObj}></InfoBtns>
               <div className="clearBoth"></div>
             </div>
             <div className="clearBoth"></div>
             <div className="itemBody">
-              <div className="infoBtnsCont">
-
-                <div className="clearBoth"></div>
-                <InfoBtns
-                  hasInfo={hasInfo}
-                  displayInfo={this.props.displayInfo}
-                  toggleDisplayInfo={() => this.props.toggleDisplayInfo(this.props.displayInfo)}
-                  itemObj={itemObj}></InfoBtns>
-              </div>
               <div style={outboundLinkVisibility} className="outboundLinkCont" dangerouslySetInnerHTML={{__html:outboundLink}}/>
               <div style={itemTextVisibility} className="itemTextCont" dangerouslySetInnerHTML={{__html:text}}/>
               <div style={infoVisibility} className="itemTextCont infoCont" dangerouslySetInnerHTML={{__html:info}}/>

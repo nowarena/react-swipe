@@ -115,7 +115,6 @@ class Page extends React.Component {
       itemsRankArr[this.props.feed[itemsId].rank] = itemsId;
     }
 
-
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
 
       if (this.state.view == 'cats') {

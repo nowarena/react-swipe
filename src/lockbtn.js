@@ -4,9 +4,10 @@ class Lockbtn extends Component {
 
   render() {
 
-    var btnText = 'Lock Swipe';
+    var btnText = '&#128274;';
+    var btnBgColor = {};
     if (this.props.view == 'items') {
-      btnText = 'Back to All';
+      var btnBgColor = {backgroundColor:'rgb(190, 190, 190)'};
     }
 
     // Don't display lock swipe if 'info' is being viewed or 'goto top of feed' aka undefined itemsId
@@ -15,10 +16,15 @@ class Lockbtn extends Component {
       visibilityStyle = {display: 'none'};
     }
 
+
     return (
       <div key={this.props.view}>
         <div style={visibilityStyle} className="lockBtnCont">
-          <button onClick={() => this.props.setView(this.props.view, this.props.itemsId)} className="lockBtn" type="button">{btnText}</button>
+          <button
+            onClick={() => this.props.setView(this.props.view, this.props.itemsId)}
+            className="lockBtn"
+            style={btnBgColor}
+            type="button" dangerouslySetInnerHTML={{__html:btnText}}></button>
         </div>
       </div>
     );
