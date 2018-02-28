@@ -128,7 +128,7 @@ class Page extends React.Component {
          && typeof this.props.feed[itemsId] != 'undefined'
          && typeof this.props.feed[itemsId].social_media != 'undefined'
          && typeof this.props.feed[itemsId].social_media[0] != 'undefined') {
-          // this gets the most recent social_media item for a member in position i of this category
+          // this gets the most recent social_media item for each member of this category
           socialMediaObj = this.props.feed[itemsId].social_media[0];
           endOfFeedVisibility=false;
           var itemObj = this.props.feed[itemsId];
@@ -149,7 +149,7 @@ class Page extends React.Component {
             itemsId={itemsId}
             endOfFeedVisibility={endOfFeedVisibility}
             view={this.state.view}
-            displayInfo={this.state.displayInfo}></Lockbtn>
+            ></Lockbtn>
           <Item
             displayInfo={this.state.displayInfo}
             toggleDisplayInfo={() => this.toggleDisplayInfo(this.state.displayInfo)}

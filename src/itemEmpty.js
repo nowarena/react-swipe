@@ -11,7 +11,7 @@ class ItemEmpty extends Component {
 
     var slideStyle={};
     if (this.props.view == 'items') {
-      slideStyle={backgroundColor:'#cccccc'};
+      //slideStyle={backgroundColor:'#cccccc'};
     }
 
     return (
