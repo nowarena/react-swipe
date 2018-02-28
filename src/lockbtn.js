@@ -10,12 +10,11 @@ class Lockbtn extends Component {
       var btnBgColor = {backgroundColor:'rgb(190, 190, 190)'};
     }
 
-    // Don't display lock swipe if 'goto top of feed' aka undefined itemsId
+    // Don't display lock swipe if at end aka 'goto top of feed' aka undefined itemsId
     var visibilityStyle = {display:'block'};
-    if (typeof this.props.itemsId == 'undefined' || this.props.endOfFeedVisibility) {
+    if (typeof this.props.itemsId == 'undefined') {
       visibilityStyle = {display: 'none'};
     }
-
 
     return (
       <div key={this.props.view}>

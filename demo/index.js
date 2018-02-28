@@ -19,7 +19,7 @@ var techJson = require('../json/tech.json');
 const query = querystring.parse(window.location.search.slice(1));
 
 // change Swipe.js options by query params
-const startSlide = parseInt(query.startSlide, 10) || 0;
+//const startSlide = parseInt(query.startSlide, 10) || 0;
 
 class Page extends React.Component {
 
@@ -28,14 +28,22 @@ class Page extends React.Component {
     this.state = {view: 'cats', itemsId:0, displayInfo:0};
     this.setView = this.setView.bind(this);
     this.lastCatsPos = 0;
+    this.initSlide = 0;
     this.toggleDisplayInfo = this.toggleDisplayInfo.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.initSlide == 0 && typeof this.props.firstRow != 'undefined' && this.props.firstRow == 1) {
+      this.initSlide = 1;
+      setTimeout(() => this.prev(), 500);
+    }
+    console.log("initSlide", this.initSlide);
   }
 
   gotoTop () {
     do {
       this.prev();
     } while (this.reactSwipe.getPos() > 0);
-    console.log("gotoTOp");
   }
 
   next () {
@@ -47,43 +55,35 @@ class Page extends React.Component {
   }
 
   getPos() {
-    return this.reactSwipe.getPos();
+     return this.reactSwipe.getPos();
   }
 
   // This manages the view, wither 'cats' or 'items'. If the view is 'items', then all the slides for that item is display,
   // otherwise if the view is 'cats', the items in the category get their most recent social media displayed in the slide
   setView(currentView, itemsId) {
-
     if (currentView == 'cats') {
       this.lastCatsPos = this.getPos();
-      console.log("lastCatsPos", this.lastCatsPos);
     }
 
     var viewVal = (currentView == 'items') ? 'cats' : 'items';
     this.setState({
       view: viewVal,
       itemsId: itemsId
-    }, () => this.afterSetViewSetStateFinished(viewVal, itemsId));
+    }, () => this.afterSetViewSetStateFinished(viewVal));
 
 
   }
 
-  afterSetViewSetStateFinished(viewVal, itemsId) {
+  afterSetViewSetStateFinished(viewVal) {
 
     if (viewVal == 'items') {
       // they've clicked on lock swipe, jump to the next slide for that item
       setTimeout(() => this.next(), 100);
     } else {
       // they've unlocked the the lock swipe, return them to the last item they viewed, don't go to the top
-      //console.log("here");
-      console.log("pos", this.lastCatsPos);
-      console.log("getPos", this.getPos());
-      // this.setState({hide:1});
-      // this.setState({hideItemsId:itemsId});
       while (this.getPos() < this.lastCatsPos) {
         this.next();
       } ;
-      //console.log("afterSet", itemsId);
       setTimeout(() => this.next(), 400);
     }
   }
@@ -109,10 +109,12 @@ class Page extends React.Component {
       numberOfSlides = this.props.feed[this.state.itemsId].social_media.length + 1;// + 1 because ItemEmpty will be the +1
     }
 
+    // each 'items' has a rank value in the json, but the rank doesn't correlate to the order in the json.
     // create an array to map items_id and their most recent social media date to position in this.props.feed array
     var itemsRankArr = [];
     for(var itemsId in this.props.feed) {
-      itemsRankArr[this.props.feed[itemsId].rank] = itemsId;
+      var rank = this.props.feed[itemsId].rank;
+      itemsRankArr[rank] = itemsId;
     }
 
     const paneNodes = Array.apply(null, Array(numberOfSlides)).map((_, i) => {
@@ -122,6 +124,7 @@ class Page extends React.Component {
       } else {
         itemsId = this.state.itemsId;
       }
+
       var endOfFeedVisibility=true;
       var socialMediaObj = [];
       if (this.state.view == 'cats'
@@ -144,24 +147,26 @@ class Page extends React.Component {
 
       return (
         <div key={i}>
-          <Lockbtn
-            setView={this.setView}
-            itemsId={itemsId}
-            endOfFeedVisibility={endOfFeedVisibility}
-            view={this.state.view}
-            ></Lockbtn>
+
           <Item
             displayInfo={this.state.displayInfo}
             toggleDisplayInfo={() => this.toggleDisplayInfo(this.state.displayInfo)}
-            lastItemsIdToRender={() => this.lastItemsIdToRender(itemsId)}
             view={this.state.view}
             socialMediaObj={socialMediaObj}
             itemObj={itemObj}></Item>
+          <Lockbtn
+            setView={this.setView}
+            itemsId={itemsId}
+            view={this.state.view}
+          ></Lockbtn>
+
           <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
 
     });
+
+    const startSlide = (typeof this.props.firstRow != 'undefined' && this.props.firstRow == 1) ? 1 : 0;
 
     const swipeOptions = {
       startSlide: startSlide < paneNodes.length && startSlide >= 0 ? startSlide : 0,
@@ -182,6 +187,7 @@ class Page extends React.Component {
     // last in the loop.
     // itemsId gets set when viewing items
     return (
+
       <div key={itemsId} className="center">
         <div className='parentCont'>
           <div className='parentTitleCont'>
@@ -209,7 +215,13 @@ class Page extends React.Component {
 }
 
 ReactDOM.render(
-  <Page title='Dining' feed={diningJson} />,
+  <Page title='Tech' feed={techJson} />,
+  document.getElementById('tech')
+);
+
+
+ReactDOM.render(
+  <Page title='Dining' firstRow={1} feed={diningJson} />,
   document.getElementById('dining')
 );
 
@@ -228,10 +240,6 @@ ReactDOM.render(
   document.getElementById('newspeople')
 );
 
-ReactDOM.render(
-  <Page title='Tech' feed={techJson} />,
-  document.getElementById('tech')
-);
 
 ReactDOM.render(
   <Page title='Casual Eats & Coffee' feed={casualeatscoffeeJson} />,
