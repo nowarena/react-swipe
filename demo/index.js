@@ -147,7 +147,6 @@ class Page extends React.Component {
 
       return (
         <div key={i}>
-
           <Item
             displayInfo={this.state.displayInfo}
             toggleDisplayInfo={() => this.toggleDisplayInfo(this.state.displayInfo)}
@@ -159,7 +158,6 @@ class Page extends React.Component {
             itemsId={itemsId}
             view={this.state.view}
           ></Lockbtn>
-
           <ItemEmpty view={this.state.view} gotoTop={() => this.gotoTop()} endOfFeedVisibility={endOfFeedVisibility}></ItemEmpty>
         </div>
       );
@@ -214,10 +212,10 @@ class Page extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Page title='Tech' feed={techJson} />,
-  document.getElementById('tech')
-);
+// ReactDOM.render(
+//   <Page title='Tech' feed={techJson} />,
+//   document.getElementById('tech')
+// );
 
 
 ReactDOM.render(

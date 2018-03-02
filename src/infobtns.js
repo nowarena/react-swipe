@@ -18,7 +18,7 @@ class InfoBtns extends Component {
       infoBtnBgColor = {backgroundColor:'rgb(190, 190, 190)'};
     }
 
-    var mapLink = '<a class="mapLink" target="_blank" href="https://www.google.com/maps/?q=' + encodeURIComponent(itemObj.lat + ',' + itemObj.lon) + '">map</a>';
+    var mapLink = '<a class="mapLink" target="_blank" href="https://www.google.com/maps/?q=' + encodeURIComponent(itemObj.lat + ',' + itemObj.lon) + '"><div  class="mapBtnInner">map</div></a>';
 
     return (
       <div>
